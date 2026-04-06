@@ -1,0 +1,24 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Env
+.env
+
+# Installation Targets (Don't commit these)
+.qwen/
+.claude/
+.cursor/
+.codex/
+.gemini/
+.opencode/
