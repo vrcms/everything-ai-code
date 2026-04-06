@@ -1,124 +1,119 @@
-﻿# Universal Installer for Everything AI Code
+﻿# install.ps1 — Universal Installer for Everything AI Code
 # Supports: Qwen Code, Claude Code, Cursor, Codex, Gemini CLI, OpenCode
 
 param(
-    [string]$Tool = ""
+    [string]$Mode = "interactive", # "interactive", "project", "global", "qwen", "claude", "cursor", "codex", "gemini"
+    [switch]$Silent
 )
 
 $SourceSkills = Join-Path $PSScriptRoot "skills"
 $SourceAgents = Join-Path $PSScriptRoot "agents"
 $SourceRules = Join-Path $PSScriptRoot "rules"
-$SourceMCP = Join-Path $PSScriptRoot "mcp-configs"
 
-function Write-Header {
-    param([string]$Text)
-    Write-Host "`n========================================" -ForegroundColor Cyan
-    Write-Host " $Text" -ForegroundColor Cyan
-    Write-Host "========================================`n" -ForegroundColor Cyan
+$Color = @{
+    Header = "Cyan"
+    Success = "Green"
+    Warn = "Yellow"
+    Error = "Red"
+    Info = "White"
 }
 
-function Install-For-Tool {
-    param([string]$ToolName, [string]$TargetDir)
-    
-    Write-Host "Installing for $ToolName..." -ForegroundColor Yellow
-    
-    # Create target directories
-    $TargetSkills = Join-Path $TargetDir "skills"
-    $TargetAgents = Join-Path $TargetDir "agents"
-    $TargetRules = Join-Path $TargetDir "rules"
-    
-    New-Item -ItemType Directory -Force -Path $TargetSkills | Out-Null
-    New-Item -ItemType Directory -Force -Path $TargetAgents | Out-Null
-    New-Item -ItemType Directory -Force -Path $TargetRules | Out-Null
-
-    # Copy/Symlink Skills
-    Write-Host "  -> Linking Skills..." -ForegroundColor Green
-    Copy-Item -Path "$SourceSkills\*" -Destination $TargetSkills -Recurse -Force
-    
-    # Copy/Symlink Agents (if applicable)
-    if (Test-Path $SourceAgents) {
-        Write-Host "  -> Linking Agents..." -ForegroundColor Green
-        Copy-Item -Path "$SourceAgents\*" -Destination $TargetAgents -Recurse -Force
-    }
-
-    # Copy/Symlink Rules
-    if (Test-Path $SourceRules) {
-        Write-Host "  -> Linking Rules..." -ForegroundColor Green
-        Copy-Item -Path "$SourceRules\*" -Destination $TargetRules -Recurse -Force
-    }
-
-    Write-Host "✅ $ToolName installation complete!" -ForegroundColor Green
+function Write-Log {
+    param([string]$Message, [string]$ColorName = "Info")
+    Write-Host "[$(Get-Date -Format 'HH:mm:ss')] $Message" -ForegroundColor $Color.$ColorName
 }
 
-# Auto-detect or Ask
-if ($Tool -eq "") {
-    Write-Header "Everything AI Code - Universal Installer"
-    Write-Host "Which AI tool are you using?"
-    Write-Host "  1) Qwen Code"
-    Write-Host "  2) Claude Code"
-    Write-Host "  3) Cursor"
-    Write-Host "  4) Codex CLI"
-    Write-Host "  5) Gemini CLI"
-    Write-Host "  6) OpenCode"
-    Write-Host "  7) All of the above (Global Install)"
+function Copy-Structure {
+    param([string]$TargetDir, [string]$Label)
     
-    $Choice = Read-Host "Enter number (1-7)"
+    Write-Log "🔧 Installing components for $Label..." "Header"
+    
+    $Targets = @(
+        @{Name = "skills"; Source = $SourceSkills},
+        @{Name = "agents"; Source = $SourceAgents},
+        @{Name = "rules"; Source = $SourceRules}
+    )
+
+    foreach ($t in $Targets) {
+        if (Test-Path $t.Source) {
+            $Dest = Join-Path $TargetDir $t.Name
+            Write-Log "   📂 Syncing $($t.Name)..." "Info"
+            
+            # Use robocopy for better performance and handling on Windows
+            robocopy $t.Source $Dest /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+        }
+    }
+    Write-Log "✅ $Label installation complete!" "Success"
+}
+
+# --- Logic ---
+
+if ($Mode -eq "interactive" -and -not $Silent) {
+    Write-Log "🚀 Welcome to the Everything AI Code Installer!" "Header"
+    Write-Host "Select your installation mode:"
+    Write-Host "  1) Project (Current Directory)" -ForegroundColor $Color.Info
+    Write-Host "  2) Global (All supported tools on this machine)" -ForegroundColor $Color.Info
+    Write-Host "  3) Qwen Code (Project Level)" -ForegroundColor $Color.Info
+    Write-Host "  4) Qwen Code (Global Level)" -ForegroundColor $Color.Info
+    Write-Host "  5) Claude Code (Global)" -ForegroundColor $Color.Info
+    Write-Host "  6) Cursor (Project Level)" -ForegroundColor $Color.Info
+    
+    $Choice = Read-Host "Enter number (1-6)"
     
     switch ($Choice) {
-        "1" { $Tool = "qwen" }
-        "2" { $Tool = "claude" }
-        "3" { $Tool = "cursor" }
-        "4" { $Tool = "codex" }
-        "5" { $Tool = "gemini" }
-        "6" { $Tool = "opencode" }
-        "7" { $Tool = "all" }
-        default { Write-Host "Invalid choice."; exit 1 }
+        "1" { $Mode = "project" }
+        "2" { $Mode = "global" }
+        "3" { $Mode = "qwen" }
+        "4" { $Mode = "qwen-global" }
+        "5" { $Mode = "claude" }
+        "6" { $Mode = "cursor" }
+        default { 
+            Write-Log "❌ Invalid choice. Defaulting to Project mode." $Color.Error
+            $Mode = "project"
+        }
     }
-} else {
-    $Tool = $Tool.ToLower()
+} elseif ($Mode -eq "interactive") {
+    $Mode = "project" # Default silent fallback
 }
-
-Write-Header "Installing Everything AI Code for: $Tool"
 
 $HomeDir = $env:USERPROFILE
+$CurrentDir = Get-Location
 
-switch ($Tool) {
+switch ($Mode) {
+    "project" {
+        Write-Log "📍 Installing to current project: $CurrentDir" "Header"
+        Copy-Structure (Join-Path $CurrentDir ".qwen") "Qwen Code (Local)"
+        Write-Log "💡 Restart Qwen Code in this directory to load." $Color.Warn
+    }
+    "global" {
+        Write-Log "🌍 Installing globally for all supported tools..." "Header"
+        Copy-Structure (Join-Path $HomeDir ".qwen") "Qwen Code"
+        Copy-Structure (Join-Path $HomeDir ".claude") "Claude Code"
+        Copy-Structure (Join-Path $HomeDir ".gemini") "Gemini CLI"
+        Write-Log "💡 Global skills are now available for all tools!" $Color.Success
+    }
     "qwen" {
-        $Target = Join-Path (Get-Location) ".qwen"
-        # If running in a project, install locally. If global, install to ~\.qwen
-        # Default behavior: Install to current directory for project-specific usage
-        Install-For-Tool "Qwen Code" $Target
-        Write-Host "`n💡 Tip: Restart Qwen Code to load new skills."
+        Copy-Structure (Join-Path $CurrentDir ".qwen") "Qwen Code (Local)"
+    }
+    "qwen-global" {
+        Copy-Structure (Join-Path $HomeDir ".qwen") "Qwen Code (Global)"
     }
     "claude" {
-        $Target = Join-Path $HomeDir ".claude"
-        Install-For-Tool "Claude Code" $Target
+        Copy-Structure (Join-Path $HomeDir ".claude") "Claude Code (Global)"
     }
     "cursor" {
-        # Cursor usually uses .cursorrules or specific plugin folders depending on version
-        # Assuming .cursor/rules for newer versions
-        $Target = Join-Path (Get-Location) ".cursor"
-        Install-For-Tool "Cursor" $Target
+        Copy-Structure (Join-Path $CurrentDir ".cursor") "Cursor (Local)"
     }
-    "codex" {
-        $Target = Join-Path (Get-Location) ".codex"
-        Install-For-Tool "Codex CLI" $Target
-    }
-    "gemini" {
-        $Target = Join-Path $HomeDir ".gemini"
-        Install-For-Tool "Gemini CLI" $Target
-    }
-    "opencode" {
-        $Target = Join-Path (Get-Location) ".opencode"
-        Install-For-Tool "OpenCode" $Target
-    }
-    "all" {
-        Write-Host "Installing globally for all supported tools..."
-        Install-For-Tool "Qwen Code" (Join-Path $HomeDir ".qwen")
-        Install-For-Tool "Claude Code" (Join-Path $HomeDir ".claude")
-        Install-For-Tool "Gemini CLI" (Join-Path $HomeDir ".gemini")
-        Write-Host "`n🌍 Global installation complete!"
+    default {
+        # Fallback for direct mode specification
+        if ($Mode -like "*qwen*") { 
+            $Dir = if ($Mode -like "*global*") { (Join-Path $HomeDir ".qwen") } else { (Join-Path $CurrentDir ".qwen") }
+            Copy-Structure $Dir "Qwen Code" 
+        }
+        elseif ($Mode -eq "claude") { Copy-Structure (Join-Path $HomeDir ".claude") "Claude Code" }
+        elseif ($Mode -eq "cursor") { Copy-Structure (Join-Path $CurrentDir ".cursor") "Cursor" }
+        else { Write-Log "⚠️ Unknown mode: $Mode" $Color.Warn }
     }
 }
 
-Write-Header "Done! Enjoy your Superpowers!"
+Write-Log "🎉 Installation Finished!" "Success"
