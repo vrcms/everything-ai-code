@@ -6,15 +6,18 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex-brightgreen)]()
 
+> **📢 项目来源与致谢：**
+> 本项目是两个传奇开源项目的**深度融合**：
+> 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**：提供了海量（180+）的技术技能库和 Agent 架构。
+> 2. **[superpowers](https://github.com/obra/superpowers)**：提供了严格的工程纪律层（澄清需求、先规划后编码、并行执行、完成前验证）。
+>
+> 我们将 EQC 的“武器库”与 Superpowers 的“指挥官”完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
+
 ---
 
 ### 🧠 这是什么？
 
 **Everything AI Code** 不仅仅是一份技能列表，它是一套**强制性的工程工作流**。它能防止 AI 盲目编码或“幻觉式地汇报成功”，确保每一步都经过深思熟虑和验证。
-
-它融合了两种强大的哲学，打造为通用标准：
-1.  **武器库 (The Arsenal - 源自 EQC)**：180+ 深度技术技能，涵盖所有主流语言、框架和工作流（TDD、Docker、安全审计等）。
-2.  **指挥官 (The Commander - 源自 Superpowers)**：严格的工程纪律层，强制 AI 在写代码前理清需求、拆任务，并在说“完成”前强制验证。
 
 ---
 
@@ -58,10 +61,6 @@ chmod +x install.sh && ./install.sh
 | **Cursor** | 项目根目录下的 `.cursor/` 或 `.cursorrules` |
 | **Gemini CLI** | 全局目录 `~/.gemini/` |
 | **Codex CLI** | 项目根目录下的 `.codex/` |
-
-#### 方法 3: 直接使用（免安装）
-
-如果你使用的是 **Qwen Code** 或 **Claude Code**，你甚至可以只把 `AGENTS.md` 文件放在项目根目录。AI 会读取它并理解规则，即使你还没安装完整的技能库。
 
 ---
 
