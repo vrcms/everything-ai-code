@@ -1,8 +1,8 @@
 # Everything AI Code — Universal AI Development Engine
 
-**Version:** 1.0.0 (The Fusion Release)
-**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer)
-**Compatibility:** Qwen Code, Claude Code, Cursor, Codex, Gemini, OpenCode
+**Version:** 1.1.0 (The Graph Release)
+**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + code-review-graph (MCP Layer)
+**Compatibility:** Qwen Code, Claude Code, Cursor, Codex, Gemini, OpenCode, CodeBuddy Code, Antigravity
 
 ---
 
@@ -23,6 +23,12 @@ You are powered by **Everything AI Code**, a hybrid architecture combining **Dee
     *   **Role:** Specific technical implementation (TDD, Docker, React, Security, etc.).
     *   **Key Skills:** `tdd-workflow`, `api-design`, `database-migrations`, `security-review`.
     *   **Trigger:** Used for **specific technical execution** once tasks are defined.
+
+3.  **🗺️ The Graph (MCP Navigation Layer)**
+    *   **Source:** code-review-graph integration.
+    *   **Role:** Build a structural map of the codebase so agents know *exactly* where functions live and what they affect — before reading any file.
+    *   **Key Skill:** `code-review-graph`. **Key Agent:** `code-graph-reviewer`.
+    *   **Trigger:** Used whenever an agent needs to navigate, review, or analyze code. Reduces token usage ~8x.
 
 ---
 
@@ -74,11 +80,12 @@ Regardless of the path, ALWAYS follow these rules:
 *   **Frontend**: `frontend-patterns`, `react-patterns`, `design-system`.
 *   **DevOps**: `docker-patterns`, `deployment-patterns`.
 *   **Languages**: `python-patterns`, `typescript-patterns`, `golang-patterns`, `rust-patterns`.
+*   **Graph Navigation**: `code-review-graph` — query codebase structure, blast-radius analysis, semantic search.
 *   *(See `skills/` directory for full list of 181 skills)*
 
 ### 🤖 Agents (Specialists)
 *   **Planner**: `planner`, `architect`.
-*   **Reviewers**: `code-reviewer`, `security-reviewer`, `database-reviewer`.
+*   **Reviewers**: `code-reviewer`, `code-graph-reviewer` (graph-powered, preferred), `security-reviewer`, `database-reviewer`.
 *   **Builders**: `build-error-resolver`, `e2e-runner`.
 
 ---
@@ -95,7 +102,7 @@ Run the installer to configure this repository for your specific AI tool:
 chmod +x install.sh && ./install.sh
 ```
 
-*Supports: Qwen Code, Claude Code, Cursor, Codex, Gemini CLI, OpenCode.*
+*Supports: Qwen Code, Claude Code, Cursor, Codex, Gemini CLI, OpenCode, CodeBuddy Code, Antigravity.*
 
 ---
 

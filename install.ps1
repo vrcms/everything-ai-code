@@ -2,7 +2,7 @@
 # Supports: Qwen Code, Claude Code, Cursor, Codex, Gemini CLI, OpenCode
 
 param(
-    [string]$Mode = "interactive", # "interactive", "project", "global", "qwen", "claude", "cursor", "codex", "gemini"
+    [string]$Mode = "interactive", # "interactive", "project", "global", "qwen", "claude", "cursor", "codex", "gemini", "codebuddy", "codebuddy-global"
     [switch]$Silent
 )
 
@@ -46,6 +46,18 @@ function Copy-Structure {
     Write-Log "✅ $Label installation complete!" "Success"
 }
 
+function Copy-SkillsOnly {
+    param([string]$TargetDir, [string]$Label)
+    
+    Write-Log "🔧 Installing skills for $Label..." "Header"
+    $Dest = Join-Path $TargetDir "skills"
+    if (Test-Path $SourceSkills) {
+        Write-Log "   📂 Syncing skills..." "Info"
+        robocopy $SourceSkills $Dest /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+    }
+    Write-Log "✅ $Label installation complete!" "Success"
+}
+
 # --- Logic ---
 
 if ($Mode -eq "interactive" -and -not $Silent) {
@@ -57,8 +69,12 @@ if ($Mode -eq "interactive" -and -not $Silent) {
     Write-Host "  4) Qwen Code (Global Level)" -ForegroundColor $Color.Info
     Write-Host "  5) Claude Code (Global)" -ForegroundColor $Color.Info
     Write-Host "  6) Cursor (Project Level)" -ForegroundColor $Color.Info
+    Write-Host "  7) CodeBuddy Code (Project Level)" -ForegroundColor $Color.Info
+    Write-Host "  8) CodeBuddy Code (Global)" -ForegroundColor $Color.Info
+    Write-Host "  9) Antigravity (Project Level)" -ForegroundColor $Color.Info
+    Write-Host "  10) Antigravity (Global)" -ForegroundColor $Color.Info
     
-    $Choice = Read-Host "Enter number (1-6)"
+    $Choice = Read-Host "Enter number (1-10)"
     
     switch ($Choice) {
         "1" { $Mode = "project" }
@@ -67,6 +83,10 @@ if ($Mode -eq "interactive" -and -not $Silent) {
         "4" { $Mode = "qwen-global" }
         "5" { $Mode = "claude" }
         "6" { $Mode = "cursor" }
+        "7" { $Mode = "codebuddy" }
+        "8" { $Mode = "codebuddy-global" }
+        "9" { $Mode = "antigravity" }
+        "10" { $Mode = "antigravity-global" }
         default { 
             Write-Log "❌ Invalid choice. Defaulting to Project mode." $Color.Error
             $Mode = "project"
@@ -90,6 +110,8 @@ switch ($Mode) {
         Copy-Structure (Join-Path $HomeDir ".qwen") "Qwen Code"
         Copy-Structure (Join-Path $HomeDir ".claude") "Claude Code"
         Copy-Structure (Join-Path $HomeDir ".gemini") "Gemini CLI"
+        Copy-Structure (Join-Path $HomeDir ".codebuddy") "CodeBuddy Code"
+        Copy-SkillsOnly (Join-Path $HomeDir ".agent") "Antigravity"
         Write-Log "💡 Global skills are now available for all tools!" $Color.Success
     }
     "qwen" {
@@ -104,6 +126,18 @@ switch ($Mode) {
     "cursor" {
         Copy-Structure (Join-Path $CurrentDir ".cursor") "Cursor (Local)"
     }
+    "codebuddy" {
+        Copy-Structure (Join-Path $CurrentDir ".codebuddy") "CodeBuddy Code (Local)"
+    }
+    "codebuddy-global" {
+        Copy-Structure (Join-Path $HomeDir ".codebuddy") "CodeBuddy Code (Global)"
+    }
+    "antigravity" {
+        Copy-SkillsOnly (Join-Path $CurrentDir ".agent") "Antigravity (Local)"
+    }
+    "antigravity-global" {
+        Copy-SkillsOnly (Join-Path $HomeDir ".agent") "Antigravity (Global)"
+    }
     default {
         # Fallback for direct mode specification
         if ($Mode -like "*qwen*") { 
@@ -117,3 +151,47 @@ switch ($Mode) {
 }
 
 Write-Log "🎉 Installation Finished!" "Success"
+
+# --- Optional: code-review-graph MCP Integration ---
+Write-Log "" "Info"
+Write-Log "🔍 Optional: code-review-graph (graph-powered codebase navigation)" "Header"
+Write-Log "   Reduces AI token usage ~8x by building a structural map of your codebase." "Info"
+Write-Log "   Provides MCP tools: blast-radius analysis, semantic search, impact detection." "Info"
+Write-Log "" "Info"
+
+$InstallCrg = Read-Host "Install code-review-graph now? (y/N)"
+
+if ($InstallCrg -eq "y" -or $InstallCrg -eq "Y") {
+    # Check Python
+    $PythonCmd = $null
+    if (Get-Command "python" -ErrorAction SilentlyContinue) {
+        $PythonCmd = "python"
+    } elseif (Get-Command "python3" -ErrorAction SilentlyContinue) {
+        $PythonCmd = "python3"
+    }
+
+    if ($null -eq $PythonCmd) {
+        Write-Log "❌ Python not found. Install Python 3.10+ first: https://python.org" "Error"
+        Write-Log "   Then run: pip install code-review-graph && code-review-graph install" "Warn"
+    } else {
+        Write-Log "🐍 Python found. Installing code-review-graph..." "Info"
+
+        # Prefer pipx, fall back to pip
+        if (Get-Command "pipx" -ErrorAction SilentlyContinue) {
+            pipx install code-review-graph
+        } elseif (Get-Command "uv" -ErrorAction SilentlyContinue) {
+            uv tool install code-review-graph
+        } else {
+            & $PythonCmd -m pip install --quiet code-review-graph
+        }
+
+        Write-Log "⚙️  Configuring MCP for installed AI tools..." "Info"
+        code-review-graph install
+
+        Write-Log "✅ code-review-graph installed and configured!" "Success"
+        Write-Log "💡 Next step: open your project and ask your AI to 'Build the code review graph'" "Warn"
+    }
+} else {
+    Write-Log "⏭️  Skipped. To install later:" "Warn"
+    Write-Log "   pip install code-review-graph && code-review-graph install" "Info"
+}

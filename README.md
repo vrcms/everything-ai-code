@@ -3,15 +3,16 @@
 **The Universal Operating System for AI Coding Agents.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
-[![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex-brightgreen)]()
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)]()
+[![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 Origin & Acknowledgments:**
-> This project is a **deep fusion** of two legendary open-source projects:
-> 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**: Provided the massive 180+ technical skill library and agent architecture.
-> 2. **[superpowers](https://github.com/obra/superpowers)**: Provided the strict engineering discipline layer (clarify, plan, parallelize, verify).
+> This project is a **deep fusion** of three open-source projects:
+> 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)** (MIT): Provided the massive 180+ technical skill library and agent architecture.
+> 2. **[superpowers](https://github.com/obra/superpowers)** (MIT): Provided the strict engineering discipline layer (clarify, plan, parallelize, verify).
+> 3. **[code-review-graph](https://github.com/tirth8205/code-review-graph)** (MIT): Provided the MCP-based codebase graph navigation layer — structural mapping, blast-radius analysis, and ~8x token reduction.
 >
-> We combined the "Arsenal" of EQC with the "Commander" of Superpowers to create a **Universal Standard for all AI Developers.**
+> We combined the "Arsenal" of EQC, the "Commander" of Superpowers, and the "Graph" of code-review-graph to create a **Universal Standard for all AI Developers.**
 
 ---
 
@@ -23,9 +24,10 @@
 
 ### ✨ Key Features
 
-*   **🤖 Universal**: Works with **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode**.
+*   **🤖 Universal**: Works with **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode, CodeBuddy Code, Antigravity**.
 *   **🧠 Smart Routing**: Automatically switches between "Commander Mode" (for complex planning) and "Executor Mode" (for fast coding).
 *   **🛠️ Massive Library**: 180+ technical skills + 47 specialized agents.
+*   **🗺️ Graph Navigation**: Powered by `code-review-graph` — AI knows exactly which file and line to read before opening anything. ~8x token reduction.
 *   **🛡️ Strict Quality Gates**: Built-in `verification-before-completion` prevents the AI from hallucinating success.
 *   **⚡ Parallel Execution**: Built-in support for sub-agent dispatching to get work done faster.
 
@@ -61,6 +63,36 @@ If you prefer to do it yourself, just copy the `skills/`, `agents/`, and `rules/
 | **Cursor** | `.cursor/` or `.cursorrules` in your project root |
 | **Gemini CLI** | `~/.gemini/` (Global) |
 | **Codex CLI** | `.codex/` in your project root |
+| **CodeBuddy Code** | `.codebuddy/` in your project root (or `~/.codebuddy/` globally) |
+| **Antigravity** | `.agent/skills/` in your project root (or `~/.agent/skills/` globally) |
+
+---
+
+### 🗺️ Graph Navigation (Optional but Recommended)
+
+`code-review-graph` gives your AI a structural map of your codebase, so it can find functions and files instantly instead of scanning everything.
+
+**One-time setup per project:**
+
+```bash
+# 1. Install (Python 3.10+ required)
+pip install code-review-graph
+# or: pipx install code-review-graph
+
+# 2. Configure your AI tool (auto-detects Claude Code, Cursor, CodeBuddy, etc.)
+code-review-graph install
+
+# 3. Build the graph for your project
+cd /your/project
+code-review-graph build
+```
+
+After that, restart your AI tool and ask:
+> "Use `code-graph-reviewer` to review the current changes"
+
+The graph updates incrementally on file changes — no need to rebuild manually.
+
+> **Credit:** Graph navigation is powered by [code-review-graph](https://github.com/tirth8205/code-review-graph) (MIT License) by [@tirth8205](https://github.com/tirth8205).
 
 ---
 
@@ -82,6 +114,11 @@ The project uses a **Two-Layer Architecture**:
 *   **Security**: `security-review` (Find vulnerabilities).
 *   **Stacks**: `react-patterns`, `django-patterns`, `golang-patterns`, etc.
 *   **DevOps**: `docker-patterns`, `ci-cd-workflow`.
+
+#### Layer 3: The Graph (Navigation)
+*Used for: Any task that requires finding code, reviewing changes, or analyzing impact.*
+*   **`code-review-graph`**: Query the codebase graph to locate functions, trace call chains, and get blast-radius analysis before reading files.
+*   **`code-graph-reviewer`**: Graph-powered agent that reviews changes with full impact context.
 
 ---
 

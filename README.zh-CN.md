@@ -3,15 +3,16 @@
 **AI 编程智能体的通用操作系统。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
-[![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex-brightgreen)]()
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)]()
+[![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 项目来源与致谢：**
-> 本项目是两个传奇开源项目的**深度融合**：
-> 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**：提供了海量（180+）的技术技能库和 Agent 架构。
-> 2. **[superpowers](https://github.com/obra/superpowers)**：提供了严格的工程纪律层（澄清需求、先规划后编码、并行执行、完成前验证）。
+> 本项目是三个开源项目的**深度融合**：
+> 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**（MIT）：提供了海量（180+）的技术技能库和 Agent 架构。
+> 2. **[superpowers](https://github.com/obra/superpowers)**（MIT）：提供了严格的工程纪律层（澄清需求、先规划后编码、并行执行、完成前验证）。
+> 3. **[code-review-graph](https://github.com/tirth8205/code-review-graph)**（MIT）：提供了基于 MCP 的代码库图导航层 — 结构映射、影响范围分析，token 消耗减少约 8 倍。
 >
-> 我们将 EQC 的“武器库”与 Superpowers 的“指挥官”完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
+> 我们将 EQC 的"武器库"、Superpowers 的"指挥官"和 code-review-graph 的"导航图"完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
 
 ---
 
@@ -23,9 +24,10 @@
 
 ### ✨ 核心特性
 
-*   **🤖 真正通用**：兼容 **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode**。
-*   **🧠 智能路由**：根据任务复杂度，自动在“指挥官模式”（复杂规划）和“执行者模式”（快速编码）间切换。
+*   **🤖 真正通用**：兼容 **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode, CodeBuddy Code, Antigravity**。
+*   **🧠 智能路由**：根据任务复杂度，自动在"指挥官模式"（复杂规划）和"执行者模式"（快速编码）间切换。
 *   **🛠️ 海量库**：180+ 技术技能 + 47 个专业 Agent。
+*   **🗺️ 图导航**：集成 `code-review-graph`，AI 在打开任何文件前就能精准知道函数在哪里，token 消耗减少约 8 倍。
 *   **🛡️ 严格质量门禁**：内置 `verification-before-completion` 技能，防止 AI 吹牛。
 *   **⚡ 并行执行**：内置子代理分发功能，让多个 AI 同时为你干活。
 
@@ -61,6 +63,36 @@ chmod +x install.sh && ./install.sh
 | **Cursor** | 项目根目录下的 `.cursor/` 或 `.cursorrules` |
 | **Gemini CLI** | 全局目录 `~/.gemini/` |
 | **Codex CLI** | 项目根目录下的 `.codex/` |
+| **CodeBuddy Code** | 项目根目录下的 `.codebuddy/`（或全局 `~/.codebuddy/`）|
+| **Antigravity** | 项目根目录下的 `.agent/skills/`（或全局 `~/.agent/skills/`）|
+
+---
+
+### 🗺️ 图导航功能（可选，强烈推荐）
+
+`code-review-graph` 为 AI 提供了代码库的结构图，让 AI 能在读取任何文件之前就精确定位函数和类的位置，大幅减少不必要的 token 消耗。
+
+**每个项目首次使用时的一次性初始化：**
+
+```bash
+# 1. 安装（需要 Python 3.10+）
+pip install code-review-graph
+# 或推荐：pipx install code-review-graph
+
+# 2. 配置 AI 工具（自动检测 Claude Code、Cursor、CodeBuddy 等）
+code-review-graph install
+
+# 3. 在你的项目里构建图
+cd /your/project
+code-review-graph build
+```
+
+初始化完成后，重启 AI 工具，然后说：
+> "用 `code-graph-reviewer` 审查当前改动"
+
+之后代码有变动时图会自动增量更新，无需手动重新构建。
+
+> **版权声明：** 图导航功能由 [code-review-graph](https://github.com/tirth8205/code-review-graph)（MIT 许可证）提供，作者 [@tirth8205](https://github.com/tirth8205)。
 
 ---
 
@@ -82,6 +114,11 @@ chmod +x install.sh && ./install.sh
 *   **安全**: `security-review`（查找漏洞）。
 *   **技术栈**: `react-patterns`, `django-patterns`, `golang-patterns` 等。
 *   **运维**: `docker-patterns`, `ci-cd-workflow`。
+
+#### 第三层：导航图 (The Graph / Navigation)
+*适用场景：查找代码位置、审查改动、分析影响范围。*
+*   **`code-review-graph`**：查询代码库结构图，定位函数、追踪调用链，在读取文件前获取影响范围分析。
+*   **`code-graph-reviewer`**：图辅助审查 Agent，携带完整影响上下文进行代码审查。
 
 ---
 

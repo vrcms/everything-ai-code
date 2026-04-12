@@ -42,6 +42,15 @@ install_for_tool() {
     success "$tool installation complete!"
 }
 
+install_skills_only() {
+    local tool=$1
+    local target_dir=$2
+    
+    log "🔧 Installing skills for $tool..."
+    sync_dir "$SOURCE_SKILLS" "$target_dir/skills"
+    success "$tool installation complete!"
+}
+
 # Detect OS
 OS="$(uname)"
 if [[ "$OS" == "Darwin" ]]; then
@@ -69,7 +78,11 @@ if [[ "$MODE" == "interactive" ]]; then
     echo "4) Qwen Code (Global)"
     echo "5) Claude Code (Global)"
     echo "6) Cursor (Project)"
-    read -p "Enter number (1-6): " CHOICE
+    echo "7) CodeBuddy Code (Project)"
+    echo "8) CodeBuddy Code (Global)"
+    echo "9) Antigravity (Project)"
+    echo "10) Antigravity (Global)"
+    read -p "Enter number (1-10): " CHOICE
 
     case $CHOICE in
         1) MODE="project" ;;
@@ -78,6 +91,10 @@ if [[ "$MODE" == "interactive" ]]; then
         4) MODE="qwen-global" ;;
         5) MODE="claude" ;;
         6) MODE="cursor" ;;
+        7) MODE="codebuddy" ;;
+        8) MODE="codebuddy-global" ;;
+        9) MODE="antigravity" ;;
+        10) MODE="antigravity-global" ;;
         *) warn "Invalid choice. Defaulting to Project mode."; MODE="project" ;;
     esac
 fi
@@ -93,6 +110,8 @@ case $MODE in
         install_for_tool "Qwen Code" "$HOME_DIR/.qwen"
         install_for_tool "Claude Code" "$HOME_DIR/.claude"
         install_for_tool "Gemini CLI" "$HOME_DIR/.gemini"
+        install_for_tool "CodeBuddy Code" "$HOME_DIR/.codebuddy"
+        install_skills_only "Antigravity" "$HOME_DIR/.agent"
         success "Global skills are now available for all tools!"
         ;;
     qwen)
@@ -107,9 +126,64 @@ case $MODE in
     cursor)
         install_for_tool "Cursor (Local)" "$CURRENT_DIR/.cursor"
         ;;
+    codebuddy)
+        install_for_tool "CodeBuddy Code (Local)" "$CURRENT_DIR/.codebuddy"
+        ;;
+    codebuddy-global)
+        install_for_tool "CodeBuddy Code (Global)" "$HOME_DIR/.codebuddy"
+        ;;
+    antigravity)
+        install_skills_only "Antigravity (Local)" "$CURRENT_DIR/.agent"
+        ;;
+    antigravity-global)
+        install_skills_only "Antigravity (Global)" "$HOME_DIR/.agent"
+        ;;
     *)
         error "Unknown mode: $MODE"
         ;;
 esac
 
 success "🎉 Installation Finished!"
+
+# --- Optional: code-review-graph MCP Integration ---
+echo ""
+log "🔍 Optional: code-review-graph (graph-powered codebase navigation)"
+echo "   Reduces AI token usage ~8x by building a structural map of your codebase."
+echo "   Provides MCP tools: blast-radius analysis, semantic search, impact detection."
+echo ""
+
+read -p "Install code-review-graph now? (y/N): " INSTALL_CRG
+
+if [[ "$INSTALL_CRG" == "y" || "$INSTALL_CRG" == "Y" ]]; then
+    # Check Python
+    PYTHON_CMD=""
+    if command -v python3 &>/dev/null; then
+        PYTHON_CMD="python3"
+    elif command -v python &>/dev/null; then
+        PYTHON_CMD="python"
+    fi
+
+    if [[ -z "$PYTHON_CMD" ]]; then
+        error "Python not found. Install Python 3.10+ first: https://python.org\nThen run: pip install code-review-graph && code-review-graph install"
+    else
+        log "🐍 Python found. Installing code-review-graph..."
+
+        # Prefer pipx or uv, fall back to pip
+        if command -v pipx &>/dev/null; then
+            pipx install code-review-graph
+        elif command -v uv &>/dev/null; then
+            uv tool install code-review-graph
+        else
+            $PYTHON_CMD -m pip install --quiet code-review-graph
+        fi
+
+        log "⚙️  Configuring MCP for installed AI tools..."
+        code-review-graph install
+
+        success "code-review-graph installed and configured!"
+        warn "💡 Next step: open your project and ask your AI to 'Build the code review graph'"
+    fi
+else
+    warn "⏭️  Skipped. To install later:"
+    echo "   pip install code-review-graph && code-review-graph install"
+fi
