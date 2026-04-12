@@ -3,16 +3,17 @@
 **AI 编程智能体的通用操作系统。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)]()
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 项目来源与致谢：**
-> 本项目是三个开源项目的**深度融合**：
+> 本项目是四个开源项目的**深度融合**：
 > 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**（MIT）：提供了海量（180+）的技术技能库和 Agent 架构。
 > 2. **[superpowers](https://github.com/obra/superpowers)**（MIT）：提供了严格的工程纪律层（澄清需求、先规划后编码、并行执行、完成前验证）。
 > 3. **[code-review-graph](https://github.com/tirth8205/code-review-graph)**（MIT）：提供了基于 MCP 的代码库图导航层 — 结构映射、影响范围分析，token 消耗减少约 8 倍。
+> 4. **[antigravity-god-mode](https://github.com/SamarthaKV29/antigravity-god-mode)**（MIT）：提供了 660+ 扩展技能（SaaS 自动化、安全渗透、AI/ML、移动开发）和 18 个专家角色。
 >
-> 我们将 EQC 的"武器库"、Superpowers 的"指挥官"和 code-review-graph 的"导航图"完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
+> 我们将 EQC 的"武器库"、Superpowers 的"指挥官"、code-review-graph 的"导航图"和 antigravity-god-mode 的"神级模式"完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
 
 ---
 
@@ -26,7 +27,7 @@
 
 *   **🤖 真正通用**：兼容 **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode, CodeBuddy Code, Antigravity**。
 *   **🧠 智能路由**：根据任务复杂度，自动在"指挥官模式"（复杂规划）和"执行者模式"（快速编码）间切换。
-*   **🛠️ 海量库**：180+ 技术技能 + 47 个专业 Agent。
+*   **🛠️ 海量库**：850+ 技术技能 + 66 个专业 Agent。
 *   **🗺️ 图导航**：集成 `code-review-graph`，AI 在打开任何文件前就能精准知道函数在哪里，token 消耗减少约 8 倍。
 *   **🛡️ 严格质量门禁**：内置 `verification-before-completion` 技能，防止 AI 吹牛。
 *   **⚡ 并行执行**：内置子代理分发功能，让多个 AI 同时为你干活。

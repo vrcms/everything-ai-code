@@ -1,7 +1,7 @@
 # Everything AI Code — Universal AI Development Engine
 
-**Version:** 1.1.0 (The Graph Release)
-**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + code-review-graph (MCP Layer)
+**Version:** 2.0.0 (The God Mode Release)
+**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + code-review-graph (MCP Layer) + God Mode (660+ Skills + 18 Agents)
 **Compatibility:** Qwen Code, Claude Code, Cursor, Codex, Gemini, OpenCode, CodeBuddy Code, Antigravity
 
 ---
@@ -19,8 +19,8 @@ You are powered by **Everything AI Code**, a hybrid architecture combining **Dee
     *   **Trigger:** Used for **complex, ambiguous, or large-scale tasks**.
 
 2.  **🛠️ The Arsenal (Execution Layer)**
-    *   **Source:** EQC 181+ Skills.
-    *   **Role:** Specific technical implementation (TDD, Docker, React, Security, etc.).
+    *   **Source:** EQC 181+ Skills + God Mode 660+ Skills.
+    *   **Role:** Specific technical implementation (TDD, Docker, React, Security, SaaS, AI/ML, Pentesting, etc.).
     *   **Key Skills:** `tdd-workflow`, `api-design`, `database-migrations`, `security-review`.
     *   **Trigger:** Used for **specific technical execution** once tasks are defined.
 
@@ -81,12 +81,17 @@ Regardless of the path, ALWAYS follow these rules:
 *   **DevOps**: `docker-patterns`, `deployment-patterns`.
 *   **Languages**: `python-patterns`, `typescript-patterns`, `golang-patterns`, `rust-patterns`.
 *   **Graph Navigation**: `code-review-graph` — query codebase structure, blast-radius analysis, semantic search.
-*   *(See `skills/` directory for full list of 181 skills)*
+*   **SaaS Automation**: `slack-automation`, `jira-automation`, `zendesk-automation`, `salesforce-automation`.
+*   **Security & Pentesting**: `owasp-top-10`, `xss-html-injection`, `api-fuzzing-bug-bounty`, `penetration-tester`.
+*   **AI & ML**: `rag`, `langchain`, `ai-engineer`, `autonomous-agents`.
+*   **Mobile**: `flutter`, `react-native`, `swiftui`.
+*   *(See `skills/` directory for full list of 850+ skills)*
 
 ### 🤖 Agents (Specialists)
-*   **Planner**: `planner`, `architect`.
-*   **Reviewers**: `code-reviewer`, `code-graph-reviewer` (graph-powered, preferred), `security-reviewer`, `database-reviewer`.
-*   **Builders**: `build-error-resolver`, `e2e-runner`.
+*   **Planner**: `planner`, `architect`, `project-planner`, `product-manager`, `product-owner`.
+*   **Reviewers**: `code-reviewer`, `code-graph-reviewer` (graph-powered, preferred), `security-reviewer`, `security-auditor`, `database-reviewer`, `database-architect`.
+*   **Builders**: `build-error-resolver`, `e2e-runner`, `frontend-specialist`, `backend-specialist`, `devops-engineer`.
+*   **Specialists**: `penetration-tester`, `game-developer`, `mobile-developer`, `qa-automation-engineer`, `test-engineer`, `documentation-writer`, `code-archaeologist`, `debugger`, `orchestrator`.
 
 ---
 

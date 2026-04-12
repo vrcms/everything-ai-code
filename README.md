@@ -3,16 +3,17 @@
 **The Universal Operating System for AI Coding Agents.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)]()
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 Origin & Acknowledgments:**
-> This project is a **deep fusion** of three open-source projects:
+> This project is a **deep fusion** of four open-source projects:
 > 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)** (MIT): Provided the massive 180+ technical skill library and agent architecture.
 > 2. **[superpowers](https://github.com/obra/superpowers)** (MIT): Provided the strict engineering discipline layer (clarify, plan, parallelize, verify).
 > 3. **[code-review-graph](https://github.com/tirth8205/code-review-graph)** (MIT): Provided the MCP-based codebase graph navigation layer — structural mapping, blast-radius analysis, and ~8x token reduction.
+> 4. **[antigravity-god-mode](https://github.com/SamarthaKV29/antigravity-god-mode)** (MIT): Provided 660+ expanded skills (SaaS automation, security/pentesting, AI/ML, mobile) and 18 specialist personas.
 >
-> We combined the "Arsenal" of EQC, the "Commander" of Superpowers, and the "Graph" of code-review-graph to create a **Universal Standard for all AI Developers.**
+> We combined the "Arsenal" of EQC, the "Commander" of Superpowers, the "Graph" of code-review-graph, and the "God Mode" of antigravity-god-mode to create a **Universal Standard for all AI Developers.**
 
 ---
 
@@ -26,7 +27,7 @@
 
 *   **🤖 Universal**: Works with **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode, CodeBuddy Code, Antigravity**.
 *   **🧠 Smart Routing**: Automatically switches between "Commander Mode" (for complex planning) and "Executor Mode" (for fast coding).
-*   **🛠️ Massive Library**: 180+ technical skills + 47 specialized agents.
+*   **🛠️ Massive Library**: 850+ technical skills + 66 specialized agents.
 *   **🗺️ Graph Navigation**: Powered by `code-review-graph` — AI knows exactly which file and line to read before opening anything. ~8x token reduction.
 *   **🛡️ Strict Quality Gates**: Built-in `verification-before-completion` prevents the AI from hallucinating success.
 *   **⚡ Parallel Execution**: Built-in support for sub-agent dispatching to get work done faster.
