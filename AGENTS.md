@@ -1,7 +1,7 @@
 # Everything AI Code — Universal AI Development Engine
 
 **Version:** 2.0.0 (The God Mode Release)
-**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + code-review-graph (MCP Layer) + God Mode (660+ Skills + 18 Agents)
+**Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + God Mode (660+ Skills + 18 Agents)
 **Compatibility:** Qwen Code, Claude Code, Cursor, Codex, Gemini, OpenCode, CodeBuddy Code, Antigravity
 
 ---
@@ -23,12 +23,6 @@ You are powered by **Everything AI Code**, a hybrid architecture combining **Dee
     *   **Role:** Specific technical implementation (TDD, Docker, React, Security, SaaS, AI/ML, Pentesting, etc.).
     *   **Key Skills:** `tdd-workflow`, `api-design`, `database-migrations`, `security-review`.
     *   **Trigger:** Used for **specific technical execution** once tasks are defined.
-
-3.  **🗺️ The Graph (MCP Navigation Layer)**
-    *   **Source:** code-review-graph integration.
-    *   **Role:** Build a structural map of the codebase so agents know *exactly* where functions live and what they affect — before reading any file.
-    *   **Key Skill:** `code-review-graph`. **Key Agent:** `code-graph-reviewer`.
-    *   **Trigger:** Used whenever an agent needs to navigate, review, or analyze code. Reduces token usage ~8x.
 
 ---
 
@@ -80,7 +74,6 @@ Regardless of the path, ALWAYS follow these rules:
 *   **Frontend**: `frontend-patterns`, `react-patterns`, `design-system`.
 *   **DevOps**: `docker-patterns`, `deployment-patterns`.
 *   **Languages**: `python-patterns`, `typescript-patterns`, `golang-patterns`, `rust-patterns`.
-*   **Graph Navigation**: `code-review-graph` — query codebase structure, blast-radius analysis, semantic search.
 *   **SaaS Automation**: `slack-automation`, `jira-automation`, `zendesk-automation`, `salesforce-automation`.
 *   **Security & Pentesting**: `owasp-top-10`, `xss-html-injection`, `api-fuzzing-bug-bounty`, `penetration-tester`.
 *   **AI & ML**: `rag`, `langchain`, `ai-engineer`, `autonomous-agents`.
@@ -89,7 +82,7 @@ Regardless of the path, ALWAYS follow these rules:
 
 ### 🤖 Agents (Specialists)
 *   **Planner**: `planner`, `architect`, `project-planner`, `product-manager`, `product-owner`.
-*   **Reviewers**: `code-reviewer`, `code-graph-reviewer` (graph-powered, preferred), `security-reviewer`, `security-auditor`, `database-reviewer`, `database-architect`.
+*   **Reviewers**: `code-reviewer`, `security-reviewer`, `security-auditor`, `database-reviewer`, `database-architect`.
 *   **Builders**: `build-error-resolver`, `e2e-runner`, `frontend-specialist`, `backend-specialist`, `devops-engineer`.
 *   **Specialists**: `penetration-tester`, `game-developer`, `mobile-developer`, `qa-automation-engineer`, `test-engineer`, `documentation-writer`, `code-archaeologist`, `debugger`, `orchestrator`.
 

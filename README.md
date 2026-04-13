@@ -7,13 +7,12 @@
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 Origin & Acknowledgments:**
-> This project is a **deep fusion** of four open-source projects:
+> This project is a **deep fusion** of three open-source projects:
 > 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)** (MIT): Provided the massive 180+ technical skill library and agent architecture.
 > 2. **[superpowers](https://github.com/obra/superpowers)** (MIT): Provided the strict engineering discipline layer (clarify, plan, parallelize, verify).
-> 3. **[code-review-graph](https://github.com/tirth8205/code-review-graph)** (MIT): Provided the MCP-based codebase graph navigation layer — structural mapping, blast-radius analysis, and ~8x token reduction.
-> 4. **[antigravity-god-mode](https://github.com/SamarthaKV29/antigravity-god-mode)** (MIT): Provided 660+ expanded skills (SaaS automation, security/pentesting, AI/ML, mobile) and 18 specialist personas.
+> 3. **[antigravity-god-mode](https://github.com/SamarthaKV29/antigravity-god-mode)** (MIT): Provided 660+ expanded skills (SaaS automation, security/pentesting, AI/ML, mobile) and 18 specialist personas.
 >
-> We combined the "Arsenal" of EQC, the "Commander" of Superpowers, the "Graph" of code-review-graph, and the "God Mode" of antigravity-god-mode to create a **Universal Standard for all AI Developers.**
+> We combined the "Arsenal" of EQC, the "Commander" of Superpowers, and the "God Mode" of antigravity-god-mode to create a **Universal Standard for all AI Developers.**
 
 ---
 
@@ -28,7 +27,6 @@
 *   **🤖 Universal**: Works with **Qwen Code, Claude Code, Cursor, Gemini, Codex, OpenCode, CodeBuddy Code, Antigravity**.
 *   **🧠 Smart Routing**: Automatically switches between "Commander Mode" (for complex planning) and "Executor Mode" (for fast coding).
 *   **🛠️ Massive Library**: 850+ technical skills + 66 specialized agents.
-*   **🗺️ Graph Navigation**: Powered by `code-review-graph` — AI knows exactly which file and line to read before opening anything. ~8x token reduction.
 *   **🛡️ Strict Quality Gates**: Built-in `verification-before-completion` prevents the AI from hallucinating success.
 *   **⚡ Parallel Execution**: Built-in support for sub-agent dispatching to get work done faster.
 
@@ -69,91 +67,6 @@ If you prefer to do it yourself, just copy the `skills/`, `agents/`, and `rules/
 
 ---
 
-### 🗺️ Graph Navigation (Optional but Recommended)
-
-`code-review-graph` gives your AI a structural map of your codebase, so it can find functions and files instantly instead of scanning everything.
-
-> **Important:** `code-review-graph` is a standalone Python tool, NOT part of the skills/agents you installed above. The `skills/code-review-graph/SKILL.md` in this project is a **usage guide** that tells your AI *how* to use the tool — you still need to install the tool itself.
-
-#### How It Works
-
-| What | Where | What It Does |
-|------|-------|-------------|
-| `pip install code-review-graph` | Anywhere (global) | Installs the `code-review-graph` CLI command on your system |
-| `code-review-graph install` | Anywhere | Configures your AI tool (Claude Code, Cursor, CodeBuddy, etc.) to connect to the graph via MCP |
-| `code-review-graph build` | **Inside the project you want to analyze** | Parses that project's code and generates a `.code-review-graph/` database in the project root |
-| `skills/code-review-graph/SKILL.md` | Installed by this project | Tells your AI when and how to call the graph's MCP tools |
-
-#### Step-by-Step Setup
-
-**Step 1 — Install the tool (once, globally)**
-```bash
-# Requires Python 3.10+
-pip install code-review-graph
-# Or use pipx for isolated install:
-pipx install code-review-graph
-# Or use uv:
-uv tool install code-review-graph
-```
-
-**Step 2 — Connect it to your AI tool (once, globally)**
-```bash
-code-review-graph install
-# Auto-detects Claude Code, Cursor, CodeBuddy, etc. and writes MCP config
-```
-
-**Step 3 — Build the graph for YOUR project (once per project)**
-```bash
-# Navigate to the project you want AI to analyze
-cd /your/project
-
-# Full build (includes flow/community detection — slower)
-code-review-graph build
-
-# Recommended: skip flow detection (much faster, retains core features)
-code-review-graph build --skip-flows
-
-# Minimal: raw parse only (fastest, basic indexing only)
-code-review-graph build --skip-postprocess
-```
-
-| Flag | What It Skips | Speed | Features Retained |
-|------|---------------|-------|-------------------|
-| *(none)* | Nothing | Slowest | All features: signatures, FTS, flow/community detection |
-| `--skip-flows` | Flow & community detection | **Much faster** | Function/class lookup, call chains, full-text search, blast radius |
-| `--skip-postprocess` | All post-processing | Fastest | Basic parsing and indexing only |
-
-**Tip:** Reduce build time and disk usage by creating a `.code-review-graphignore` file in your project root:
-```gitignore
-node_modules/**
-vendor/**
-dist/**
-build/**
-generated/**
-*.min.js
-*.min.css
-```
-Directories in `.gitignore` are automatically skipped (only git-tracked files are parsed).
-
-**Step 4 — Use it**
-Restart your AI tool, then ask:
-> "Use `code-graph-reviewer` to review the current changes"
-
-The graph updates incrementally on file changes — no need to rebuild manually.
-
-#### Common Questions
-
-| Question | Answer |
-|----------|--------|
-| Do I run `build` in the everything-ai-code directory? | **No.** Run it in the project you want AI to analyze. |
-| Do I need to install it for every project? | `pip install` is once globally. `build` is once per target project. |
-| What if I switch projects? | Run `code-review-graph build` in the new project. Each project has its own graph. |
-| Does the graph auto-update? | Yes. When AI calls `build_or_update_graph_tool`, it incrementally updates. |
-
-> **Credit:** Graph navigation is powered by [code-review-graph](https://github.com/tirth8205/code-review-graph) (MIT License) by [@tirth8205](https://github.com/tirth8205).
-
----
-
 ### 📖 How It Works
 
 The project uses a **Two-Layer Architecture**:
@@ -172,11 +85,7 @@ The project uses a **Two-Layer Architecture**:
 *   **Security**: `security-review` (Find vulnerabilities).
 *   **Stacks**: `react-patterns`, `django-patterns`, `golang-patterns`, etc.
 *   **DevOps**: `docker-patterns`, `ci-cd-workflow`.
-
-#### Layer 3: The Graph (Navigation)
-*Used for: Any task that requires finding code, reviewing changes, or analyzing impact.*
-*   **`code-review-graph`**: Query the codebase graph to locate functions, trace call chains, and get blast-radius analysis before reading files.
-*   **`code-graph-reviewer`**: Graph-powered agent that reviews changes with full impact context.
+*   **SaaS**: `slack-automation`, `jira-automation`, `zendesk-automation`, `salesforce-automation`.
 
 ---
 
