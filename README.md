@@ -73,25 +73,59 @@ If you prefer to do it yourself, just copy the `skills/`, `agents/`, and `rules/
 
 `code-review-graph` gives your AI a structural map of your codebase, so it can find functions and files instantly instead of scanning everything.
 
-**One-time setup per project:**
+> **Important:** `code-review-graph` is a standalone Python tool, NOT part of the skills/agents you installed above. The `skills/code-review-graph/SKILL.md` in this project is a **usage guide** that tells your AI *how* to use the tool — you still need to install the tool itself.
 
+#### How It Works
+
+| What | Where | What It Does |
+|------|-------|-------------|
+| `pip install code-review-graph` | Anywhere (global) | Installs the `code-review-graph` CLI command on your system |
+| `code-review-graph install` | Anywhere | Configures your AI tool (Claude Code, Cursor, CodeBuddy, etc.) to connect to the graph via MCP |
+| `code-review-graph build` | **Inside the project you want to analyze** | Parses that project's code and generates a `.code-review-graph/` database in the project root |
+| `skills/code-review-graph/SKILL.md` | Installed by this project | Tells your AI when and how to call the graph's MCP tools |
+
+#### Step-by-Step Setup
+
+**Step 1 — Install the tool (once, globally)**
 ```bash
-# 1. Install (Python 3.10+ required)
+# Requires Python 3.10+
 pip install code-review-graph
-# or: pipx install code-review-graph
-
-# 2. Configure your AI tool (auto-detects Claude Code, Cursor, CodeBuddy, etc.)
-code-review-graph install
-
-# 3. Build the graph for your project
-cd /your/project
-code-review-graph build
+# Or use pipx for isolated install:
+pipx install code-review-graph
+# Or use uv:
+uv tool install code-review-graph
 ```
 
-After that, restart your AI tool and ask:
+**Step 2 — Connect it to your AI tool (once, globally)**
+```bash
+code-review-graph install
+# Auto-detects Claude Code, Cursor, CodeBuddy, etc. and writes MCP config
+```
+
+**Step 3 — Build the graph for YOUR project (once per project)**
+```bash
+# Navigate to the project you want AI to analyze
+cd /your/project
+
+# Parse the codebase and build the structural graph
+code-review-graph build
+# This creates /your/project/.code-review-graph/ with a SQLite database
+```
+
+**Step 4 — Use it**
+Restart your AI tool, then ask:
 > "Use `code-graph-reviewer` to review the current changes"
 
 The graph updates incrementally on file changes — no need to rebuild manually.
+
+#### Common Questions
+
+| Question | Answer |
+|----------|--------|
+| Do I run `build` in the everything-ai-code directory? | **No.** Run it in the project you want AI to analyze. |
+| Do I need to install it for every project? | `pip install` is once globally. `build` is once per target project. |
+| What if I switch projects? | Run `code-review-graph build` in the new project. Each project has its own graph. |
+| Does the graph auto-update? | Yes. When AI calls `build_or_update_graph_tool`, it incrementally updates. |
 
 > **Credit:** Graph navigation is powered by [code-review-graph](https://github.com/tirth8205/code-review-graph) (MIT License) by [@tirth8205](https://github.com/tirth8205).
 

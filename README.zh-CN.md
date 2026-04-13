@@ -73,25 +73,59 @@ chmod +x install.sh && ./install.sh
 
 `code-review-graph` 为 AI 提供了代码库的结构图，让 AI 能在读取任何文件之前就精确定位函数和类的位置，大幅减少不必要的 token 消耗。
 
-**每个项目首次使用时的一次性初始化：**
+> **重要说明：** `code-review-graph` 是一个独立的 Python 工具，**不是**上面安装的 skills/agents 的一部分。本项目中的 `skills/code-review-graph/SKILL.md` 只是一份**使用说明**，告诉 AI 何时/如何调用这个工具——你仍需单独安装工具本身。
 
+#### 各命令的作用与执行位置
+
+| 命令 | 在哪里执行 | 做什么 |
+|------|-----------|--------|
+| `pip install code-review-graph` | 任意位置（全局） | 在系统上安装 `code-review-graph` 命令行工具 |
+| `code-review-graph install` | 任意位置 | 配置你的 AI 工具（Claude Code、Cursor、CodeBuddy 等），使其通过 MCP 连接到图 |
+| `code-review-graph build` | **你要分析的目标项目根目录** | 解析该项目的代码，在项目根目录生成 `.code-review-graph/` 数据库 |
+| `skills/code-review-graph/SKILL.md` | 由本项目安装 | 告诉 AI 何时以及如何调用图的 MCP 工具 |
+
+#### 逐步设置
+
+**第 1 步 — 安装工具（全局，只需一次）**
 ```bash
-# 1. 安装（需要 Python 3.10+）
+# 需要 Python 3.10+
 pip install code-review-graph
-# 或推荐：pipx install code-review-graph
-
-# 2. 配置 AI 工具（自动检测 Claude Code、Cursor、CodeBuddy 等）
-code-review-graph install
-
-# 3. 在你的项目里构建图
-cd /your/project
-code-review-graph build
+# 或使用 pipx 隔离安装：
+pipx install code-review-graph
+# 或使用 uv：
+uv tool install code-review-graph
 ```
 
-初始化完成后，重启 AI 工具，然后说：
+**第 2 步 — 连接到 AI 工具（全局，只需一次）**
+```bash
+code-review-graph install
+# 自动检测 Claude Code、Cursor、CodeBuddy 等并写入 MCP 配置
+```
+
+**第 3 步 — 在你的目标项目里构建图（每个项目一次）**
+```bash
+# 进入你要让 AI 分析的项目
+cd /你的/项目
+
+# 解析代码库，构建结构图
+code-review-graph build
+# 会在 /你的/项目/.code-review-graph/ 下生成 SQLite 数据库
+```
+
+**第 4 步 — 使用**
+重启 AI 工具，然后说：
 > "用 `code-graph-reviewer` 审查当前改动"
 
 之后代码有变动时图会自动增量更新，无需手动重新构建。
+
+#### 常见问题
+
+| 问题 | 回答 |
+|------|------|
+| 要在 everything-ai-code 目录里运行 `build` 吗？ | **不要。** 在你要让 AI 分析的目标项目里运行。 |
+| 每个项目都要安装吗？ | `pip install` 全局只需一次。`build` 每个目标项目运行一次。 |
+| 切换项目怎么办？ | 在新项目里运行 `code-review-graph build`，每个项目有独立的图。 |
+| 图会自动更新吗？ | 会。AI 调用 `build_or_update_graph_tool` 时会自动增量更新。 |
 
 > **版权声明：** 图导航功能由 [code-review-graph](https://github.com/tirth8205/code-review-graph)（MIT 许可证）提供，作者 [@tirth8205](https://github.com/tirth8205)。
 
