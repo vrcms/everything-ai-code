@@ -107,10 +107,33 @@ code-review-graph install
 # Navigate to the project you want AI to analyze
 cd /your/project
 
-# Parse the codebase and build the structural graph
+# Full build (includes flow/community detection — slower)
 code-review-graph build
-# This creates /your/project/.code-review-graph/ with a SQLite database
+
+# Recommended: skip flow detection (much faster, retains core features)
+code-review-graph build --skip-flows
+
+# Minimal: raw parse only (fastest, basic indexing only)
+code-review-graph build --skip-postprocess
 ```
+
+| Flag | What It Skips | Speed | Features Retained |
+|------|---------------|-------|-------------------|
+| *(none)* | Nothing | Slowest | All features: signatures, FTS, flow/community detection |
+| `--skip-flows` | Flow & community detection | **Much faster** | Function/class lookup, call chains, full-text search, blast radius |
+| `--skip-postprocess` | All post-processing | Fastest | Basic parsing and indexing only |
+
+**Tip:** Reduce build time and disk usage by creating a `.code-review-graphignore` file in your project root:
+```gitignore
+node_modules/**
+vendor/**
+dist/**
+build/**
+generated/**
+*.min.js
+*.min.css
+```
+Directories in `.gitignore` are automatically skipped (only git-tracked files are parsed).
 
 **Step 4 — Use it**
 Restart your AI tool, then ask:

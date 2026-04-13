@@ -107,10 +107,33 @@ code-review-graph install
 # 进入你要让 AI 分析的项目
 cd /你的/项目
 
-# 解析代码库，构建结构图
+# 完整构建（包含流程/社区检测 — 较慢）
 code-review-graph build
-# 会在 /你的/项目/.code-review-graph/ 下生成 SQLite 数据库
+
+# 推荐：跳过流程检测（快很多，保留核心功能）
+code-review-graph build --skip-flows
+
+# 最小化：仅原始解析（最快，只有基础索引）
+code-review-graph build --skip-postprocess
 ```
+
+| 参数 | 跳过什么 | 速度 | 保留的功能 |
+|------|---------|------|-----------|
+| *(无参数)* | 不跳过 | 最慢 | 全部功能：签名、全文搜索、流程/社区检测 |
+| `--skip-flows` | 流程和社区检测 | **快很多** | 函数/类定位、调用链、全文搜索、影响范围分析 |
+| `--skip-postprocess` | 所有后处理 | 最快 | 仅基础解析和索引 |
+
+**提示：** 在项目根目录创建 `.code-review-graphignore` 文件可以减少构建时间和磁盘占用：
+```gitignore
+node_modules/**
+vendor/**
+dist/**
+build/**
+generated/**
+*.min.js
+*.min.css
+```
+`.gitignore` 中的目录会自动跳过（只解析 git 跟踪的文件）。
 
 **第 4 步 — 使用**
 重启 AI 工具，然后说：
