@@ -1,6 +1,6 @@
 # Everything AI Code — Universal AI Development Engine
 
-**Version:** 2.0.0 (The God Mode Release)
+**Version:** 2.1.0 (The Best Practices Release)
 **Base:** EQC (181 Skills + 47 Agents) + Superpowers (Commander Layer) + God Mode (660+ Skills + 18 Agents)
 **Compatibility:** Qwen Code, Claude Code, Cursor, Codex, Gemini, OpenCode, CodeBuddy Code, Antigravity
 

@@ -3,7 +3,7 @@
 **AI 编程智能体的通用操作系统。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)]()
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 项目来源与致谢：**
