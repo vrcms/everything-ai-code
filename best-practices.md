@@ -239,7 +239,76 @@ If you find yourself giving the same instruction more than once a day, turn it i
 
 ---
 
-## 6. Debugging / 调试
+## 6. Continuous Work / 持续工作
+
+### Commander 四步循环 / Commander Four-Step Loop
+
+对于需要 AI 持续自主工作的场景，使用 Commander 四步技能链触发：
+
+```
+brainstorming → writing-plans → subagent-driven-development → verification-before-completion
+```
+
+示例触发词：
+
+```
+"使用 brainstorming 梳理需求，然后 writing-plans 制定计划，
+ 再用 subagent-driven-development 分派执行，最后 verification-before-completion 验证"
+```
+
+**Why:** 这四个编排技能构成完整的自主工作闭环——澄清需求、制定计划、分派执行、验证完成，无需人工干预。/ These four orchestration skills form a complete autonomous loop — clarify, plan, execute, verify — no manual intervention needed.
+
+### 关键技能触发 / Key Skills for Continuous Work
+
+| 技能 Skill | 触发方式 Trigger | 说明 Description |
+|---|---|---|
+| `subagent-driven-development` | "用子代理并行开发" | 拆分任务到子代理并行执行 |
+| `continuous-agent-loop` | "持续循环执行直到完成" | 反复执行直到目标达成 |
+| `conductor-implement` | "按计划逐步实现" | 按计划有序推进实现 |
+| `systematic-debugging` | "系统化调试" | 复现→隔离→修复→测试 |
+| `verification-before-completion` | "完成前验证" | 最终质量关卡 |
+
+### CLI 原生能力 / CLI Native Capabilities
+
+不同 AI 工具提供不同的持续工作机制：
+
+- **Claude Code**: `--dangerously-skip-permissions`（跳过确认）、`/compact`（压缩上下文）、`/clear`（清空重置）
+- **CodeBuddy Code**: `/loop 5m /command`（定时循环执行）、`/compact`（压缩上下文）
+- **Qwen Code**: `--enable-auto-mode`（自动模式）
+
+### 最佳实践短语 / Best Practice Phrases
+
+告诉 AI 你期望的工作模式：
+
+```
+"全程自主，不需要问我"          → AI 将自行决策，仅在关键节点汇报
+"持续工作直到所有测试通过"        → AI 循环修复直到绿色
+"完成前必须运行验证"             → 触发 verification-before-completion
+```
+
+**Why:** 明确的工作模式指令可以减少 AI 的确认请求，让它持续输出而非等待。/ Clear mode instructions reduce confirmation requests, keeping the AI in output mode instead of waiting.
+
+### Stop Hook 防止过早完成 / Stop Hook Prevents Premature Completion
+
+配置 Stop 钩子确保 AI 不会跳过验证：
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "command": "echo 'Reminder: Run tests before marking complete.'"
+      }
+    ]
+  }
+}
+```
+
+**Why:** 没有 Stop Hook，AI 可能在测试未通过时就声称完成。Stop Hook 是自动化的最后防线。/ Without a Stop Hook, the AI may claim "done" before tests pass. The Stop Hook is the last line of defense in automation.
+
+---
+
+## 7. Debugging / 调试
 
 ### Paste the Bug, Say "Fix" / 粘贴 Bug，说"修复"
 
@@ -266,7 +335,7 @@ For finding information in a codebase, let the AI use glob + grep (agentic searc
 
 ---
 
-## 7. Git & PR / Git 与代码审查
+## 8. Git & PR / Git 与代码审查
 
 ### Small PRs, Squash Merge / 小 PR，Squash 合并
 
