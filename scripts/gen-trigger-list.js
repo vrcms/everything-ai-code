@@ -131,6 +131,68 @@ const categories = [
 // Some keywords are too generic and should only match dir+name, not description
 const genericKeywords = new Set(['security', 'attack', 'analytics', 'cloud', 'deploy', 'shell', 'cache', 'queue', 'animation', 'compliance', 'inference', 'growth', 'landing']);
 
+// English descriptions for skills with empty/broken descriptions
+const specialEn = {
+  'angular': 'Angular framework development best practices including component design, DI, and RxJS',
+  'blueprint': 'Project blueprint planning tool for defining structure and tech stack',
+  'prompt-optimizer': 'Optimize AI prompts for better output quality and consistency',
+  'token-budget-advisor': 'Token budget advisor for managing context window consumption',
+  'typescript-expert': 'Advanced TypeScript expert covering type gymnastics and engineering practices',
+  'analytics-tracking': 'Analytics tracking setup covering event instrumentation and user behavior',
+  'arm-cortex-expert': 'ARM Cortex embedded development expert covering RTOS and peripheral programming',
+  'carrier-relationship-management': 'Carrier relationship management for optimizing logistics partnerships',
+  'copywriting': 'Copywriting skill for generating high-conversion marketing copy',
+  'customs-trade-compliance': 'Customs and trade compliance for managing import/export regulations',
+  'design-orchestration': 'Design orchestration for coordinating multiple design systems and component libraries',
+  'energy-procurement': 'Energy procurement management for optimizing energy costs and supplier selection',
+  'form-cro': 'Form conversion rate optimization for reducing drop-off and improving submission rates',
+  'imagen': 'Google Imagen image generation model integration',
+  'inventory-demand-planning': 'Inventory and demand planning for forecasting and stock optimization',
+  'logistics-exception-management': 'Logistics exception management for handling shipping delays and damage',
+  'multi-agent-brainstorming': 'Multi-agent brainstorming for creative ideation through multiple AI perspectives',
+  'openclaw-persona-forge': 'OpenClaw persona forge for creating and managing AI agent personas',
+  'page-cro': 'Page conversion rate optimization for landing pages and key pages',
+  'production-scheduling': 'Production scheduling management for optimizing line resources and delivery',
+  'programmatic-seo': 'Programmatic SEO for generating search-optimized pages at scale',
+  'quality-nonconformance': 'Quality nonconformance management for handling defects and corrective actions',
+  'returns-reverse-logistics': 'Returns and reverse logistics for managing returns and recycling flows',
+  'schema-markup': 'Schema structured data markup for improving search engine understanding',
+  'seo-audit': 'SEO audit for analyzing website search optimization issues and recommendations',
+  'shopify-development': 'Shopify store development including theme customization and App integration',
+  'superdesign': 'SuperDesign system for rapidly building UI components'
+};
+
+// Chinese descriptions for skills with empty/broken descriptions
+const specialCn = {
+  'angular': 'Angular 框架开发最佳实践，包括组件设计、依赖注入和 RxJS',
+  'blueprint': '项目蓝图规划工具，用于定义项目结构和技术选型',
+  'prompt-optimizer': '优化 AI 提示词，提升输出质量和一致性',
+  'token-budget-advisor': 'Token 预算顾问，管理上下文窗口消耗',
+  'typescript-expert': 'TypeScript 高级开发专家，类型体操与工程实践',
+  'analytics-tracking': '数据追踪与分析方案，覆盖事件埋点和用户行为分析',
+  'arm-cortex-expert': 'ARM Cortex 嵌入式开发专家，涵盖 RTOS 和外设编程',
+  'carrier-relationship-management': '承运商关系管理，优化物流合作伙伴协同',
+  'copywriting': '文案写作技能，生成高转化率的营销文案',
+  'customs-trade-compliance': '海关贸易合规，管理进出口法规和关税',
+  'design-orchestration': '设计编排，协调多个设计系统和组件库',
+  'energy-procurement': '能源采购管理，优化能源成本和供应商选择',
+  'form-cro': '表单转化优化，减少用户流失和提升提交率',
+  'imagen': 'Google Imagen 图像生成模型集成',
+  'inventory-demand-planning': '库存需求规划，预测需求并优化库存水平',
+  'logistics-exception-management': '物流异常管理，处理运输延误和破损问题',
+  'multi-agent-brainstorming': '多代理头脑风暴，通过多个 AI 视角激发创意',
+  'openclaw-persona-forge': 'OpenClaw 人格锻造，创建和管理 AI 代理角色',
+  'page-cro': '页面转化优化，提升着陆页和关键页面的转化率',
+  'production-scheduling': '生产排程管理，优化产线资源和交付时间',
+  'programmatic-seo': '程序化 SEO，规模化生成搜索优化页面',
+  'quality-nonconformance': '质量不合格管理，处理产品缺陷和纠正措施',
+  'returns-reverse-logistics': '退货逆向物流，管理退换货和回收流程',
+  'schema-markup': 'Schema 结构化数据标记，提升搜索引擎理解',
+  'seo-audit': 'SEO 审计，分析网站搜索优化问题并给出建议',
+  'shopify-development': 'Shopify 商店开发，包括主题定制和 App 集成',
+  'superdesign': 'SuperDesign 超级设计系统，用于快速构建 UI 组件'
+};
+
 function getCategoryForSkill(skill) {
   const nameText = (skill.dir + ' ' + skill.name).toLowerCase();
   const fullText = (nameText + ' ' + skill.desc).toLowerCase();
@@ -155,13 +217,35 @@ function getCnName(skill, cat) {
   return skill.name; // fallback to English name
 }
 
+// Generate a short Chinese description for a skill
+function getCnDesc(skill, cat, cnName) {
+  const name = skill.dir.toLowerCase();
+  const catCn = cat.nameCn;
+  
+  if (specialCn[name]) return specialCn[name];
+  
+  // For skills with good descriptions, generate a Chinese summary
+  const cnCat = catCn;
+  return cnName + ' — ' + cnCat + '领域技能';
+}
+
 // Categorize
 const categorized = {};
 for (const cat of categories) categorized[cat.name] = [];
 
 for (const skill of data) {
   const cat = getCategoryForSkill(skill);
-  categorized[cat.name].push({ ...skill, catName: cat.name, catCn: cat.nameCn, cnName: getCnName(skill, cat) });
+  const cnName = getCnName(skill, cat);
+  const cnDesc = getCnDesc(skill, cat, cnName);
+  // Fix empty/broken descriptions
+  let fixedDesc = skill.desc;
+  const skillDir = skill.dir.toLowerCase();
+  if (specialEn[skillDir]) {
+    fixedDesc = specialEn[skillDir];
+  } else if (!fixedDesc || fixedDesc.trim() === '' || fixedDesc.trim() === '>' || fixedDesc.trim() === '|' || fixedDesc.trim() === '|-') {
+    fixedDesc = cnName + ' skill for ' + cat.name.toLowerCase();
+  }
+  categorized[cat.name].push({ ...skill, desc: fixedDesc, catName: cat.name, catCn: cat.nameCn, cnName, cnDesc });
 }
 
 // Generate markdown
@@ -190,14 +274,14 @@ for (const cat of categories) {
   const skills = categorized[cat.name];
   if (skills.length === 0) continue;
   md += '## ' + cat.name + ' / ' + cat.nameCn + ' (' + skills.length + ')\n\n';
-  md += '| Skill / 技能 | 中文 | Trigger / 触发方式 | Description / 描述 |\n';
-  md += '|------|------|------|------|\n';
+  md += '| Skill / 技能 | 中文 | Trigger / 触发方式 | Description / 描述 | [中文] |\n';
+  md += '|------|------|------|------|------|\n';
   for (const s of skills) {
     const trigger = '@' + s.dir;
     let desc = s.desc.replace(/^"/, '').replace(/"$/, '').substring(0, 100);
     if (desc.length === 100) desc += '...';
     desc = desc.replace(/\|/g, '\\|');
-    md += '| ' + s.name + ' | ' + s.cnName + ' | `' + trigger + '` | ' + desc + ' |\n';
+    md += '| ' + s.name + ' | ' + s.cnName + ' | `' + trigger + '` | ' + desc + ' | ' + s.cnDesc + ' |\n';
   }
   md += '\n';
 }
