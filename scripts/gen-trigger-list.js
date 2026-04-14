@@ -18,7 +18,7 @@ const categories = [
   {
     name: 'Blockchain & Web3',
     nameCn: '区块链与 Web3',
-    cnMap: { 'blockchain': '区块链', 'nft-': 'NFT', 'web3-': 'Web3', 'solidity-': 'Solidity', 'defi-': 'DeFi', 'evm-': 'EVM', 'amm': 'AMM', 'smart-contract': '智能合约' }
+    cnMap: { 'blockchain': '区块链', 'nft-': 'NFT', 'web3-': 'Web3', 'solidity-': 'Solidity', 'defi-': 'DeFi', 'evm-': 'EVM', 'amm-': 'AMM', 'smart-contract': '智能合约' }
   },
   {
     name: 'Game Development',
@@ -162,35 +162,35 @@ const specialEn = {
   'superdesign': 'SuperDesign system for rapidly building UI components'
 };
 
-// Chinese descriptions for skills with empty/broken descriptions
+// Chinese trigger guides for skills with empty/broken descriptions
 const specialCn = {
-  'angular': 'Angular 框架开发最佳实践，包括组件设计、依赖注入和 RxJS',
-  'blueprint': '项目蓝图规划工具，用于定义项目结构和技术选型',
-  'prompt-optimizer': '优化 AI 提示词，提升输出质量和一致性',
-  'token-budget-advisor': 'Token 预算顾问，管理上下文窗口消耗',
-  'typescript-expert': 'TypeScript 高级开发专家，类型体操与工程实践',
-  'analytics-tracking': '数据追踪与分析方案，覆盖事件埋点和用户行为分析',
-  'arm-cortex-expert': 'ARM Cortex 嵌入式开发专家，涵盖 RTOS 和外设编程',
-  'carrier-relationship-management': '承运商关系管理，优化物流合作伙伴协同',
-  'copywriting': '文案写作技能，生成高转化率的营销文案',
-  'customs-trade-compliance': '海关贸易合规，管理进出口法规和关税',
-  'design-orchestration': '设计编排，协调多个设计系统和组件库',
-  'energy-procurement': '能源采购管理，优化能源成本和供应商选择',
-  'form-cro': '表单转化优化，减少用户流失和提升提交率',
-  'imagen': 'Google Imagen 图像生成模型集成',
-  'inventory-demand-planning': '库存需求规划，预测需求并优化库存水平',
-  'logistics-exception-management': '物流异常管理，处理运输延误和破损问题',
-  'multi-agent-brainstorming': '多代理头脑风暴，通过多个 AI 视角激发创意',
-  'openclaw-persona-forge': 'OpenClaw 人格锻造，创建和管理 AI 代理角色',
-  'page-cro': '页面转化优化，提升着陆页和关键页面的转化率',
-  'production-scheduling': '生产排程管理，优化产线资源和交付时间',
-  'programmatic-seo': '程序化 SEO，规模化生成搜索优化页面',
-  'quality-nonconformance': '质量不合格管理，处理产品缺陷和纠正措施',
-  'returns-reverse-logistics': '退货逆向物流，管理退换货和回收流程',
-  'schema-markup': 'Schema 结构化数据标记，提升搜索引擎理解',
-  'seo-audit': 'SEO 审计，分析网站搜索优化问题并给出建议',
-  'shopify-development': 'Shopify 商店开发，包括主题定制和 App 集成',
-  'superdesign': 'SuperDesign 超级设计系统，用于快速构建 UI 组件'
+  'angular': '开发 Angular 应用时使用，包括组件设计和依赖注入',
+  'blueprint': '规划项目蓝图时使用，定义结构和技术选型',
+  'prompt-optimizer': '优化 AI 提示词时使用，提升输出质量',
+  'token-budget-advisor': '管理 Token 预算时使用，控制上下文消耗',
+  'typescript-expert': '需要 TypeScript 高级类型和工程实践时使用',
+  'analytics-tracking': '搭建数据追踪和用户行为分析时使用',
+  'arm-cortex-expert': '开发 ARM Cortex 嵌入式系统时使用',
+  'carrier-relationship-management': '管理承运商关系和物流合作时使用',
+  'copywriting': '生成营销文案和高转化文案时使用',
+  'customs-trade-compliance': '处理海关合规和进出口法规时使用',
+  'design-orchestration': '协调多个设计系统和组件库时使用',
+  'energy-procurement': '管理能源采购和成本优化时使用',
+  'form-cro': '优化表单转化率和减少流失时使用',
+  'imagen': '集成 Google Imagen 图像生成时使用',
+  'inventory-demand-planning': '规划库存需求和预测时使用',
+  'logistics-exception-management': '处理物流异常和运输延误时使用',
+  'multi-agent-brainstorming': '多代理头脑风暴和创意激发时使用',
+  'openclaw-persona-forge': '创建和管理 AI 代理角色时使用',
+  'page-cro': '优化页面转化率时使用',
+  'production-scheduling': '管理生产排程和资源优化时使用',
+  'programmatic-seo': '规模化生成 SEO 优化页面时使用',
+  'quality-nonconformance': '处理质量不合格和纠正措施时使用',
+  'returns-reverse-logistics': '管理退货和逆向物流时使用',
+  'schema-markup': '添加结构化数据标记以提升搜索排名时使用',
+  'seo-audit': '审计网站 SEO 问题时使用',
+  'shopify-development': '开发 Shopify 商店和主题定制时使用',
+  'superdesign': '使用 SuperDesign 快速构建 UI 组件时使用'
 };
 
 function getCategoryForSkill(skill) {
@@ -217,16 +217,54 @@ function getCnName(skill, cat) {
   return skill.name; // fallback to English name
 }
 
-// Generate a short Chinese description for a skill
-function getCnDesc(skill, cat, cnName) {
+// Generate a Chinese trigger guide for a skill
+// Describes WHEN to use the skill, in Chinese
+function getCnTriggerGuide(skill, cat, cnName) {
   const name = skill.dir.toLowerCase();
-  const catCn = cat.nameCn;
+  const desc = (skill.desc || '').toLowerCase();
   
+  // Special cases: precise Chinese trigger guides for broken/empty descriptions
   if (specialCn[name]) return specialCn[name];
   
-  // For skills with good descriptions, generate a Chinese summary
-  const cnCat = catCn;
-  return cnName + ' — ' + cnCat + '领域技能';
+  // Extract "Use when" context from description — keep as mixed CN/EN
+  const useWhenMatch = desc.match(/\buse (?:this skill |this )?when\s+(.{5,80}?)(?:\.|$)/i);
+  if (useWhenMatch) {
+    let ctx = useWhenMatch[1].trim()
+      .replace(/^you (?:need|want) to /i, '')
+      .replace(/^you're /i, '')
+      .replace(/^you are /i, '')
+      .replace(/^working (?:on|with) /i, '')
+      .replace(/^the user /i, '')
+      .replace(/^(?:a|an|the) /i, '')
+      .trim();
+    if (ctx.length > 3 && ctx.length < 60) {
+      return '当' + ctx + '时使用';
+    }
+  }
+  
+  // Extract verb+object from first sentence of description
+  const firstSentence = desc.split(/\.\s/)[0];
+  
+  // Pattern: "Verb X for Y" / "Verb X with Y"
+  const verbObjMatch = firstSentence.match(/^(?:expert (?:in|at|for) |master |guide (?:for|on) |patterns? (?:for|in) )?(?:build|design|create|implement|automate|optimize|deploy|monitor|secure|test|debug|review|migrate|refactor|configure|integrate|setup|manage|generate|write|analyze|develop|handle|process)\s+(.{10,70}?)(?:\s+(?:for|with|using|via|through|in|on)\b|$)/i);
+  if (verbObjMatch) {
+    return '当需要' + verbObjMatch[1].trim().replace(/\.$/, '') + '时使用';
+  }
+  
+  // Pattern: "X patterns" / "X best practices" / "X guide"
+  const patternMatch = firstSentence.match(/^(.{10,50}?)\s+(?:patterns?|best practices?|guide|workflow|workflow|checklist|template|framework)\s/i);
+  if (patternMatch) {
+    return '当需要' + patternMatch[1].trim() + '相关指导时使用';
+  }
+  
+  // Pattern: "You are a/an X expert/specialist"
+  const expertMatch = firstSentence.match(/^you are (?:a|an)\s+(.{10,50}?)\s+(?:expert|specialist|engineer|architect|developer|professional)/i);
+  if (expertMatch) {
+    return '当需要' + expertMatch[1].trim() + '专业帮助时使用';
+  }
+  
+  // Fallback: use cnName
+  return '当需要' + cnName + '相关功能时使用';
 }
 
 // Categorize
@@ -236,7 +274,7 @@ for (const cat of categories) categorized[cat.name] = [];
 for (const skill of data) {
   const cat = getCategoryForSkill(skill);
   const cnName = getCnName(skill, cat);
-  const cnDesc = getCnDesc(skill, cat, cnName);
+  const cnTrigger = getCnTriggerGuide(skill, cat, cnName);
   // Fix empty/broken descriptions
   let fixedDesc = skill.desc;
   const skillDir = skill.dir.toLowerCase();
@@ -245,7 +283,7 @@ for (const skill of data) {
   } else if (!fixedDesc || fixedDesc.trim() === '' || fixedDesc.trim() === '>' || fixedDesc.trim() === '|' || fixedDesc.trim() === '|-') {
     fixedDesc = cnName + ' skill for ' + cat.name.toLowerCase();
   }
-  categorized[cat.name].push({ ...skill, desc: fixedDesc, catName: cat.name, catCn: cat.nameCn, cnName, cnDesc });
+  categorized[cat.name].push({ ...skill, desc: fixedDesc, catName: cat.name, catCn: cat.nameCn, cnName, cnTrigger });
 }
 
 // Generate markdown
@@ -274,14 +312,14 @@ for (const cat of categories) {
   const skills = categorized[cat.name];
   if (skills.length === 0) continue;
   md += '## ' + cat.name + ' / ' + cat.nameCn + ' (' + skills.length + ')\n\n';
-  md += '| Skill / 技能 | 中文 | Trigger / 触发方式 | Description / 描述 | [中文] |\n';
+  md += '| Skill / 技能 | 中文 | Trigger / 触发方式 | Description / 描述 | 触发说明 |\n';
   md += '|------|------|------|------|------|\n';
   for (const s of skills) {
     const trigger = '@' + s.dir;
     let desc = s.desc.replace(/^"/, '').replace(/"$/, '').substring(0, 100);
     if (desc.length === 100) desc += '...';
     desc = desc.replace(/\|/g, '\\|');
-    md += '| ' + s.name + ' | ' + s.cnName + ' | `' + trigger + '` | ' + desc + ' | ' + s.cnDesc + ' |\n';
+    md += '| ' + s.name + ' | ' + s.cnName + ' | `' + trigger + '` | ' + desc + ' | ' + s.cnTrigger + ' |\n';
   }
   md += '\n';
 }
