@@ -86,6 +86,18 @@ Regardless of the path, ALWAYS follow these rules:
 *   **Builders**: `build-error-resolver`, `e2e-runner`, `frontend-specialist`, `backend-specialist`, `devops-engineer`.
 *   **Specialists**: `penetration-tester`, `game-developer`, `mobile-developer`, `qa-automation-engineer`, `test-engineer`, `documentation-writer`, `code-archaeologist`, `debugger`, `orchestrator`.
 
+### 🪝 Hooks (Safety & Automation)
+*   **PreToolUse**: `block-destructive.sh` — prevents dangerous commands (`rm -rf`, `DROP TABLE`, `force push`).
+*   **PostToolUse**: `auto-format.sh` — auto-formats code after edits using Prettier/black/gofmt/rustfmt.
+*   **Stop**: `verify-before-done.sh` — reminds the AI to run tests before marking tasks complete.
+*   *(See `hooks/README.md` for setup instructions)*
+
+### 📖 Best Practices (Community Wisdom)
+*   **Skill Writing**: description as trigger, Gotchas section, `context: fork`, dynamic shell output.
+*   **Context Management**: compact at 50%, clear on task switch, undo don't patch.
+*   **Workflow**: start with plan mode, challenge the AI, scrap mediocre fixes, automate repetition.
+*   *(See `best-practices.md` for the full guide)*
+
 ---
 
 ## 🛠️ Installation
@@ -101,6 +113,54 @@ chmod +x install.sh && ./install.sh
 ```
 
 *Supports: Qwen Code, Claude Code, Cursor, Codex, Gemini CLI, OpenCode, CodeBuddy Code, Antigravity.*
+
+---
+
+## 📐 Skill Writing Guide / 技能编写规范
+
+When creating or improving skills in `skills/`, follow these rules:
+
+### Frontmatter
+
+```yaml
+---
+name: my-skill          # kebab-case, matches folder name
+description: Design and optimize X for Y. Use when doing Z.  # Trigger, NOT summary
+origin: source-project   # Where this skill came from
+context: fork            # Optional: "fork" for heavy analysis skills
+---
+```
+
+**`description` is a trigger, not a summary.** AI assistants match skills by comparing user intent against the description. Write it for the model: include *when* to activate, *what* domain it covers, and *what* problem it solves.
+
+### Body Structure
+
+```markdown
+## When to Activate
+- User mentions X
+- User needs help with Y
+- Codebase contains Z
+
+## Instructions
+[Main skill content — goals and constraints, not prescriptive steps]
+
+## Gotchas / 常见陷阱
+- Common mistake #1 and why it's wrong
+- Common mistake #2 and the correct approach
+
+## References (optional)
+- `references/` folder for detailed docs
+- `scripts/` folder for runnable scripts
+- `examples/` folder for input/output examples
+```
+
+### Key Rules
+
+1. **Don't railroad** — give goals and constraints, not step-by-step prescriptive instructions. Let the AI adapt.
+2. **Add a Gotchas section** — this is the highest-signal content. It prevents the AI from repeating common mistakes.
+3. **Use `context: fork`** for expensive skills (security audits, large refactors) to avoid polluting the main context window.
+4. **Embed dynamic content** with `` !`command` `` syntax to keep skills accurate without manual updates.
+5. **Skills are folders** — use `references/`, `scripts/`, `examples/` subdirectories for supporting materials.
 
 ---
 

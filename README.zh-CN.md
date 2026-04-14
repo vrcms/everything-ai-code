@@ -7,12 +7,13 @@
 [![Universal](https://img.shields.io/badge/Support-Qwen%20%7C%20Claude%20%7C%20Cursor%20%7C%20Gemini%20%7C%20Codex%20%7C%20CodeBuddy%20%7C%20Antigravity-brightgreen)]()
 
 > **📢 项目来源与致谢：**
-> 本项目是三个开源项目的**深度融合**：
+> 本项目是多个开源项目的**深度融合**：
 > 1. **[everything-claude-code](https://github.com/affaan-m/everything-claude-code)**（MIT）：提供了海量（180+）的技术技能库和 Agent 架构。
 > 2. **[superpowers](https://github.com/obra/superpowers)**（MIT）：提供了严格的工程纪律层（澄清需求、先规划后编码、并行执行、完成前验证）。
 > 3. **[antigravity-god-mode](https://github.com/SamarthaKV29/antigravity-god-mode)**（MIT）：提供了 660+ 扩展技能（SaaS 自动化、安全渗透、AI/ML、移动开发）和 18 个专家角色。
+> 4. **[claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice)**（MIT）：提供了技能编写、钩子和上下文管理的最佳实践。
 >
-> 我们将 EQC 的"武器库"、Superpowers 的"指挥官"和 antigravity-god-mode 的"神级模式"完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
+> 我们将 EQC 的"武器库"、Superpowers 的"指挥官"、antigravity-god-mode 的"神级模式"以及社区最佳实践完美结合，打造了一套**适用于所有 AI 开发者的通用标准**。
 
 ---
 
@@ -29,6 +30,8 @@
 *   **🛠️ 海量库**：850+ 技术技能 + 66 个专业 Agent。
 *   **🛡️ 严格质量门禁**：内置 `verification-before-completion` 技能，防止 AI 吹牛。
 *   **⚡ 并行执行**：内置子代理分发功能，让多个 AI 同时为你干活。
+*   **🪝 钩子系统**：通过 PreToolUse/PostToolUse/Stop 钩子实现安全防护和自动格式化。
+*   **📖 最佳实践**：精选社区技巧，涵盖技能编写、上下文管理和工作流优化。
 
 ---
 

@@ -9,6 +9,7 @@ param(
 $SourceSkills = Join-Path $PSScriptRoot "skills"
 $SourceAgents = Join-Path $PSScriptRoot "agents"
 $SourceRules = Join-Path $PSScriptRoot "rules"
+$SourceHooks = Join-Path $PSScriptRoot "hooks"
 
 $Color = @{
     Header = "Cyan"
@@ -31,7 +32,8 @@ function Copy-Structure {
     $Targets = @(
         @{Name = "skills"; Source = $SourceSkills},
         @{Name = "agents"; Source = $SourceAgents},
-        @{Name = "rules"; Source = $SourceRules}
+        @{Name = "rules"; Source = $SourceRules},
+        @{Name = "hooks"; Source = $SourceHooks}
     )
 
     foreach ($t in $Targets) {
@@ -122,6 +124,13 @@ switch ($Mode) {
     }
     "claude" {
         Copy-Structure (Join-Path $HomeDir ".claude") "Claude Code (Global)"
+        # Configure hooks in settings.json if it exists
+        $SettingsFile = Join-Path $HomeDir ".claude\settings.json"
+        if (Test-Path $SettingsFile) {
+            Write-Log "   📌 Hooks are in .claude/hooks/ — add to settings.json to activate" "Warn"
+        } else {
+            Write-Log "   💡 To enable hooks, configure .claude/settings.json (see hooks/README.md)" "Warn"
+        }
     }
     "cursor" {
         Copy-Structure (Join-Path $CurrentDir ".cursor") "Cursor (Local)"

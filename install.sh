@@ -8,6 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_SKILLS="$SCRIPT_DIR/skills"
 SOURCE_AGENTS="$SCRIPT_DIR/agents"
 SOURCE_RULES="$SCRIPT_DIR/rules"
+SOURCE_HOOKS="$SCRIPT_DIR/hooks"
 
 # Colors
 CYAN='\033[0;36m'
@@ -39,6 +40,7 @@ install_for_tool() {
     sync_dir "$SOURCE_SKILLS" "$target_dir/skills"
     sync_dir "$SOURCE_AGENTS" "$target_dir/agents"
     sync_dir "$SOURCE_RULES" "$target_dir/rules"
+    sync_dir "$SOURCE_HOOKS" "$target_dir/hooks"
     success "$tool installation complete!"
 }
 
@@ -122,6 +124,7 @@ case $MODE in
         ;;
     claude)
         install_for_tool "Claude Code (Global)" "$HOME_DIR/.claude"
+        warn "💡 To enable hooks, configure .claude/settings.json (see hooks/README.md)"
         ;;
     cursor)
         install_for_tool "Cursor (Local)" "$CURRENT_DIR/.cursor"

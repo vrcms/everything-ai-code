@@ -1,8 +1,10 @@
-# Hooks System / 钩子系统
+# Hooks / 钩子
 
 Hooks are user-defined handlers that run outside the agentic loop on specific events. They enforce behavior that instructions alone cannot guarantee.
 
 钩子是用户定义的事件处理器，在 AI 代理循环之外运行。它们强制执行指令无法保证的行为。
+
+---
 
 ## Hook Types / 钩子类型
 
@@ -12,19 +14,35 @@ Hooks are user-defined handlers that run outside the agentic loop on specific ev
 | **PostToolUse** | After a tool executes / 工具执行后 | Auto-format, log usage, run checks |
 | **Stop** | When the session stops / 会话结束时 | Final verification, nudges |
 
+---
+
 ## Available Hooks / 可用钩子
 
-See `hooks/scripts/` for ready-to-use hook scripts:
+### 1. Block Destructive Commands / 阻止破坏性命令
 
-| Hook | Type | Script | Purpose |
-|------|------|--------|---------|
-| Block Destructive | PreToolUse | `block-destructive.sh` | Prevents `rm -rf`, `DROP TABLE`, `force push` |
-| Auto-Format | PostToolUse | `auto-format.sh` | Runs Prettier/black/gofmt/rustfmt after edits |
-| Verify Before Done | Stop | `verify-before-done.sh` | Reminds AI to run tests before completion |
+**File:** `hooks/scripts/block-destructive.sh`
 
-## Configuration / 配置
+Prevents dangerous operations like `rm -rf`, `DROP TABLE`, `force push` from executing.
 
-Add hooks to `.claude/settings.json`:
+### 2. Auto-Format on Edit / 编辑后自动格式化
+
+**File:** `hooks/scripts/auto-format.sh`
+
+Runs Prettier/auto-formatter after file edits (Write or Edit tool usage).
+
+### 3. Verify Before Done / 完成前验证
+
+**File:** `hooks/scripts/verify-before-done.sh`
+
+Nudges the AI to run tests before declaring a task complete.
+
+---
+
+## Installation / 安装
+
+Hooks are automatically installed by the installer when you choose Claude Code or project-level installation.
+
+To manually configure hooks, add them to `.claude/settings.json`:
 
 ```json
 {
@@ -65,19 +83,14 @@ Add hooks to `.claude/settings.json`:
 }
 ```
 
-## Hook Best Practices / 钩子最佳实践
+---
 
-- **Use `PreToolUse` to measure skill usage** — understand which skills are most valuable
-- **Use `PostToolUse` for auto-formatting** — ensures consistency without manual effort
-- **Use `Stop` hooks to nudge** — "Run tests before marking complete"
-- **Route permissions through hooks** — auto-approve safe operations, block dangerous ones
-- **Use on-demand hooks in skills** — e.g., `/careful` blocks destructive commands, `/freeze` blocks edits outside a directory
+## Custom Hooks / 自定义钩子
 
-## Auto-Accept Permissions / 自动接受权限
+Create your own hooks by adding scripts to `hooks/scripts/` and registering them in `.claude/settings.json`.
 
-Use with caution:
-- Enable for trusted, well-defined plans
-- Disable for exploratory work
-- Never use `dangerously-skip-permissions` flag
-- Configure `allowedTools` in settings instead
-- Use `/sandbox` to reduce permission prompts (84% reduction reported internally)
+**Tips / 技巧:**
+- Use `PreToolUse` hooks to measure skill usage and understand which skills are most valuable
+- Use `PostToolUse` hooks for auto-formatting — ensures consistency without manual effort
+- Use `Stop` hooks to nudge the AI: "Run tests before marking complete" or "Check for TODO comments"
+- Route permission requests through hooks for auto-approve on safe operations
