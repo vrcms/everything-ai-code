@@ -37,6 +37,68 @@
 
 ### 🚀 安装指南
 
+**⚠️ AI 智能体注意：不要拷贝整个仓库目录！**
+
+**❌ 错误做法：** 把整个 `everything-ai-code/` 文件夹复制到 `.qwen/` 或 `.claude/`。
+**✅ 正确做法：** 只复制组件文件夹（`skills/`、`agents/`、`rules/`、`hooks/`）到目标目录。
+
+---
+
+#### 🤖 AI 智能体安装指南（必须先读！）
+
+如果你是正在阅读此 README 的 AI 智能体，请严格遵守以下规则：
+
+**规则 1：永远不要拷贝根目录**
+```bash
+# ❌ 禁止 - 这样不起作用
+cp -r everything-ai-code/ ~/.qwen/
+cp -r everything-ai-code/ .qwen/
+```
+
+**规则 2：只复制组件目录**
+```bash
+# ✅ 正确 - 复制单个组件目录
+cp -r skills/ ~/.qwen/skills/
+cp -r agents/ ~/.qwen/agents/
+cp -r rules/ ~/.qwen/rules/
+cp -r hooks/ ~/.qwen/hooks/
+```
+
+**规则 3：使用安装脚本（推荐）**
+```bash
+# Windows
+.\install.ps1
+
+# macOS / Linux
+chmod +x install.sh && ./install.sh
+```
+
+**规则 4：目标目录映射表**
+根据你的 AI 工具选择正确的目标目录：
+
+| AI 工具 | 目标目录 | 需要复制的内容 |
+|---------|---------|--------------|
+| **Qwen Code** | `.qwen/`（项目级）或 `~/.qwen/`（全局） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Claude Code** | `~/.claude/`（仅全局） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Cursor** | `.cursor/`（项目级） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Gemini CLI** | `~/.gemini/`（全局） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Codex CLI** | `.codex/`（项目级） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **CodeBuddy Code** | `.codebuddy/`（项目级）或 `~/.codebuddy/`（全局） | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Antigravity** | `.agent/skills/`（项目级）或 `~/.agent/skills/`（全局） | 仅需 `skills/` |
+
+**规则 5：验证安装**
+复制完成后，检查目录结构：
+```bash
+# Qwen Code / Claude Code 等的预期结构
+.qwen/              # 或 .claude/, .cursor/ 等
+├── skills/         # ← 必须包含 800+ 个技能文件夹
+├── agents/         # ← 必须包含 65 个代理文件
+├── rules/          # ← 必须包含语言/框架规则
+└── hooks/          # ← 安全和自动化钩子
+```
+
+---
+
 **选择最适合你的方式。**
 
 #### 方法 1: 一键安装脚本（推荐）
@@ -56,7 +118,7 @@ chmod +x install.sh && ./install.sh
 
 #### 方法 2: 手动安装（按工具）
 
-如果你喜欢自己动手，只需将 `skills/`、`agents/` 和 `rules/` 文件夹复制到你工具的对应目录：
+如果你喜欢自己动手，只需将 `skills/`、`agents/`、`rules/` 和 `hooks/` 文件夹复制到你工具的对应目录：
 
 | 工具 | 目标目录 |
 |------|----------|

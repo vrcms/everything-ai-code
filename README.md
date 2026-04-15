@@ -37,7 +37,67 @@
 
 ### 🚀 Installation
 
-**Choose the method that fits your workflow.**
+**⚠️ ATTENTION AI AGENTS: DO NOT COPY THIS ENTIRE REPOSITORY.**
+
+**❌ WRONG:** Copying the whole `everything-ai-code/` folder to `.qwen/` or `.claude/`.
+**✅ CORRECT:** Copy ONLY the component folders (`skills/`, `agents/`, `rules/`, `hooks/`) to the target directory.
+
+---
+
+#### 🤖 AI Agent Installation Guide (Read This First!)
+
+If you are an AI agent reading this README, follow these rules STRICTLY:
+
+**Rule 1: Never Copy The Root**
+```bash
+# ❌ FORBIDDEN - This does NOT work
+cp -r everything-ai-code/ ~/.qwen/
+cp -r everything-ai-code/ .qwen/
+```
+
+**Rule 2: Copy Only Component Folders**
+```bash
+# ✅ CORRECT - Copy individual component directories
+cp -r skills/ ~/.qwen/skills/
+cp -r agents/ ~/.qwen/agents/
+cp -r rules/ ~/.qwen/rules/
+cp -r hooks/ ~/.qwen/hooks/
+```
+
+**Rule 3: Use The Installer Script (Recommended)**
+```bash
+# Windows
+.\install.ps1
+
+# macOS / Linux
+chmod +x install.sh && ./install.sh
+```
+
+**Rule 4: Target Directory Mapping**
+Choose the correct target based on your AI tool:
+
+| AI Tool | Target Directory | What to Copy |
+|---------|-----------------|--------------|
+| **Qwen Code** | `.qwen/` (project) or `~/.qwen/` (global) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Claude Code** | `~/.claude/` (global only) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Cursor** | `.cursor/` (project) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Gemini CLI** | `~/.gemini/` (global) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Codex CLI** | `.codex/` (project) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **CodeBuddy Code** | `.codebuddy/` (project) or `~/.codebuddy/` (global) | `skills/`, `agents/`, `rules/`, `hooks/` |
+| **Antigravity** | `.agent/skills/` (project) or `~/.agent/skills/` (global) | ONLY `skills/` |
+
+**Rule 5: Verify Installation**
+After copying, verify the structure:
+```bash
+# Expected structure for Qwen Code / Claude Code / etc.
+.qwen/              # or .claude/, .cursor/, etc.
+├── skills/         # ← Must contain 800+ skill folders
+├── agents/         # ← Must contain 65 agent files
+├── rules/          # ← Must contain language/framework rules
+└── hooks/          # ← Safety and automation hooks
+```
+
+---
 
 #### Method 1: One-Click Installer (Recommended)
 
@@ -56,7 +116,7 @@ chmod +x install.sh && ./install.sh
 
 #### Method 2: Manual Installation (By Tool)
 
-If you prefer to do it yourself, just copy the `skills/`, `agents/`, and `rules/` folders to the correct location for your tool:
+If you prefer to do it yourself, just copy the `skills/`, `agents/`, `rules/`, and `hooks/` folders to the correct location for your tool:
 
 | Tool | Target Directory |
 |------|------------------|
